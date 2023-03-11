@@ -1,19 +1,15 @@
 const express = require("express");
-const { chats } = require("./data/data");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
-const path = require("path");
-var cors = require("cors");
 
 dotenv.config();
 
 connectDB();
 const app = express();
 
-app.use(cors());
 app.use(express.json()); //to accept json data
 
 app.use("/api/user", userRoutes);
@@ -81,4 +77,3 @@ io.on("connection", (socket) => {
   });
 });
 
-module.exports = app;
