@@ -40,7 +40,7 @@ const server = app.listen(PORT, console.log(PORT));
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000" || "https://front-end-pi-sepia.vercel.app/",
+    origin: "https://front-end-pi-sepia.vercel.app/",
   },
 });
 
