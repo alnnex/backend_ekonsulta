@@ -31,6 +31,7 @@ const getNotifications = asyncHandler(async (req, res) => {
   try {
     const notif = await Notification.find(req.params.empty)
       .populate("chat")
+      .populate("chat.users", "firstName lastName pic")
       .populate("sender");
     var filtered = [];
     await notif?.forEach((items) => {
