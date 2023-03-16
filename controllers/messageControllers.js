@@ -21,7 +21,7 @@ const sendMessage = asyncHandler(async (req, res) => {
     var message = await Message.create(newMessage);
     message = await message.populate("sender", "firstName lastName pic");
     message = await message.populate("chat");
-    message = await message.populate("chat.groupAdmin","-password");
+    message = await message.populate("chat.groupAdmin", "-password");
     message = await User.populate(message, {
       path: "chat.users",
       select: "firstName lastName pic email",

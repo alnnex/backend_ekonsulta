@@ -4,6 +4,7 @@ const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const notificationRoutes = require("./routes/notificationRoutes");
 var cors = require("cors");
 
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.json()); //to accept json data
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 // // ---------------------------------------------------------
 // const __dirname1 = path.resolve();
