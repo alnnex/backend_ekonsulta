@@ -34,19 +34,19 @@ const getNotifications = asyncHandler(async (req, res) => {
       .populate("chat")
       .populate("sender", "-password");
 
-    await User.populate(notif, {
-      path: "chat.users",
-      select: "firstName lastName pic email",
-    });
     var filtered = [];
     await notif?.forEach((items) => {
-      if (items?.chat?.users.some((user) => user._id === userId)) {
+      if (items?.chat?.users.includes(userId)) {
         if (items.sender._id != userId) {
           filtered = [...filtered, items];
         }
       }
     });
-    res.json(notif);
+    await User.populate(filtered, {
+      path: "chat.users",
+      select: "firstName lastName pic email",
+    });
+    res.json(filtered);
   } catch (error) {
     res.status(404);
     throw new Error(error.message);
