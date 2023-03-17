@@ -40,7 +40,7 @@ const getNotifications = asyncHandler(async (req, res) => {
     });
     var filtered = [];
     await notif?.forEach((items) => {
-      if (items?.chat?.users.includes(userId)) {
+      if (items?.chat?.users.some((user) => user._id === userId)) {
         if (items.sender._id != userId) {
           filtered = [...filtered, items];
         }
