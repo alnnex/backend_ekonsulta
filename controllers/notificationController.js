@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 // const Message = require("../models/messageModel");
 // const User = require("../models/userModel");
 const Notification = require("../models/notificationModel");
+const User = require("../models/userModel");
 
 const notifications = asyncHandler(async (req, res) => {
   const { senderId, content, chatId } = req.body;
@@ -29,10 +30,14 @@ const notifications = asyncHandler(async (req, res) => {
 const getNotifications = asyncHandler(async (req, res) => {
   const { userId } = req.body;
   try {
-    const notif = await Notification.find(req.params.empty)
+    var notif = await Notification.find(req.params.empty)
       .populate("chat")
-      .populate("chat.users", "firstName lastName pic")
-      .populate("sender");
+      .populate("sender", "-password");
+
+    await User.populate(notif, {
+      path: "chat.users",
+      select: "firstName lastName pic email",
+    });
     var filtered = [];
     await notif?.forEach((items) => {
       if (items?.chat?.users.includes(userId)) {
@@ -41,7 +46,7 @@ const getNotifications = asyncHandler(async (req, res) => {
         }
       }
     });
-    res.json(filtered);
+    res.json(notif);
   } catch (error) {
     res.status(404);
     throw new Error(error.message);
